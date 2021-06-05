@@ -1,0 +1,187 @@
+git save config in three leveles.. 
+ 1. system /etc/gitconfig
+ 2. User  ~/.gitconfig in linux and in windows $HOME\.gitconfig
+ 3. Project  myproject/.git/config
+ 
+ to configure we can use the  git config --system //system level
+  git config --global //user level
+  
+  to set username git config --global user.name "username" similarly email..
+  to know the config just type git config --list
+  
+  we can assign a text editor with the command : git config --global core.editor "nano -wl1"
+  then ui color with color.ui true
+
+
+to configure git auto completion follow the following steps
+
+ step 1 :   cd ~ 
+ step 2 : curl -OL https://github.com/git/git/raw/master/contrib/completion/git-completion.bash 
+ step 3 : mv ~/git-completion.bash ~/.git-completion.bash (to make it a hidden file with .)
+ step 4 : load the file in bashrc 
+ 
+once the the file is added to bashrc then type git help just type h and press tab to test auto completion.
+
+git init : command used to initialize a repository 
+git add . : to add all filed to git the commit 
+git commit -m "any message" : to commit the change to git memory 
+
+gti log : to view the commit log
+git log -n : to limit the number of logs where n=1,2,3.....n
+git log --since=2020-06-14 
+git log --until=<date>
+git log --author="authorname" : to view commit by this author
+git log --grep="search" : search commit message 
+
+git status : to see the status whether any files are there to commit or any changes happened.it shows current working branch also
+
+git diff : to see the difference or the changes made to a file.. do this before add or commit
+git diff --staged : to do same after we did add.. or added to staging index tree
+git diff --color-words <filename> to view just the changed part and new together
+
+if we delete a file.. then the changes have to be tracked.. we dont use git add instead we use 
+git rm thedeletedfile.txt then use git commit -m "deleted the file"
+similarly with rename,if we rename then it shows old file as deleted and new as untracked file
+
+git commit -am "message" : short cut to add to staging index and commit but wont work well for new or deleted files.. and it commits everything even the file which we do not wish to track.
+
+to undo any changes we made to working directory then we can pull files from git to restore using the following command..
+git checkout --<filename>  --is used to say its not a brack.. coz checkout have other functions regarding branches too..
+
+to unstage an item : git reset HEAD <filename> 
+
+-------------------
+amending commits
+------------------
+we have the ability to change the last comment only.. first add that file to staging index
+git commit --amend -m "message"
+
+------------------------
+retrieving old versions
+------------------------
+git checkout <part of sha1> -- <filename> or we can use the revert command to undo changes in a commit completely..
+git revert <sha1 part>
+
+--------------------------------
+Git Reset : soft,mixed and hard 
+--------------------------------
+ soft : do not change the staging index or working directory. 
+ mixed : default one,changes the staging index to match the repository and doesnot change working dir
+ hard : changes staging index and working directory to match the repository.
+ 
+ soft : git reset --soft <part of sha1 of old>
+ 
+ ---------------------------------------------
+ remove untracked files from working directoy 
+ git clean -n will show the untracked files.
+ git clean -f to remove
+ --------------------------------------------
+ 
+ git ignore : to ignore some files which is not necessary to be tracked.
+ nano .gitignore to create a git ignore file in directory
+ <filename to ignore>
+ *.txt to ignore anything with .txt extension similarly we can do other files too..
+ .DS_Store  mac os files
+ *.zip
+ *.gz
+ log/*.log
+ log/*.log.[0-9]
+ asset/videos/
+ !assets/videos/tour_*.mp4
+ 
+ to setup a global ignore file : git config --global core.excludesfiles ~/.gitignore_global
+ 
+To untrack a file..
+git rm [filename] remove from repo too.
+git rm --cached {fname} to remove from staging.and keep in untracked so we can add to gitignore
+
+Git ignore directories without files..
+Just great any file or a small gitkeep file from any txt editor
+
+git ls-tree {tree-ish} like HEAD,master or sha1
+
+
+git log --oneline : to view simple log window
+git log --oneline -3 : last 3 commits 
+Git log -p to view log in details
+Git log --stat --summary log in detail
+Git log --graph
+
+Git show {sha1} to view commit detail
+Git diff {sha1}{filename} to compare commits 
+-w or -b to ignore space changes
+
+
+---------------------------
+Git Branch
+---------------------------
+git branch : to view all the branches.. * denote the branch in which we are currently working ..
+git branch {branch name} to create new
+git checkout {new branch} : to switch to new branch.
+git checkout -b {branch name}: create and switch together.
+
+comparing two branches : git diff master..new_feature(a new branch name)
+git branch --merged : shows all branches included in this branch.
+rename a branch : git branch -m <old name> <new name>.
+delete a branch : git branch -d <branch name>. instead of -d we can also use --delete
+merging  branch : switch to the brach which we need to merge into(reciever) then git merge <brach to merge> 
+git merge --no-ff <branch name> to skip ff and show commit message for documentation purpose
+git merge --ff-only <branch name>  to do only ff
+git merge --abort to abort a merge during conflict.
+git log --graph -oneline --all --decorate
+
+--------------------------------
+git stash 
+--------------------------------
+git stash save "message without -m option"
+git stash list : to view the things in stash
+git stash show <awckward name of stash which shows in stash list>
+git stash show -p <""" to view in detail>
+git stash pop/apply <stash name> : to retrieve info from stash..two methods.. pop and apply the difference is stash pop removes it from stash also while apply leaves a copy in stash.
+git stash drop <stash name> to delete from stash
+git stash clear : to delete everything
+
+-------------------------
+git Remote repository
+-------------------------
+git remote : to view all the remotes
+git remote <alias><url> : to add a remote 
+git remote -v : to view fetch and push url details
+git remote rm <alias> : to remove a remote
+
+git push -u origin master : to push origin brach to github.use github credentials
+git branch -r : to view remote branch  -a to view all
+
+git clone <url> : to clone a project from github
+git clone <url><new dir name> : to change existing directory name to new which we prefer
+
+git branch --set-upstream non_tracking origin/non_tracking : to track a branch to remote
+
+git log --oneline origin/master : to check log of remote branch.(read from local source, the remote branch which syn last time.. not real time online.. it doesnt need network connection to check)
+git push : because we already set the tracking branch in first push
+git fetch origin : to fetch.. no need to spectify origin if there is only one remote repository in our project..the fetching wont cause trouble to our edits in local machine.. it just made origin master in remote and local in sync.. our work is in master brach.. to make master and orignin/master sync we need to do a merge.
+from the anchor brach git merge origin/master to merge the master and origin/master
+
+git pull = git fetch + git merge
+
+git push origin :<branch to delete> : to delete a remote brach 
+ git checkout -b <branch name> origin/<branch name> to retrive the newly created brach.. (lynda kevin form ex) that is a brach pushed to remote using git push -u origin <branch name>
+then once lynda updated kevin can check git log -p <branch name>..origin/<branch name> compare local and remote brach to check lynda's update to specified branch then git merge origin/feedback_form(the branch which this two guys working)
+
+adding alias
+------------
+git config --global alias.st "status"
+-------------------------------------
+
+
+ 
+
+
+
+
+
+
+
+
+
+  

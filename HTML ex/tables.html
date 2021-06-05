@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style type="text/css">
+		tr.odd { background-color:blue; }
+		.col1 {background-color:green;}
+	</style>
+</head>
+<body>
+ <h3>HTML 5 table semantics</h3>
+  <table>
+  	<caption>Sample table</caption>
+      <!-- Colgroup should come after the caption and before the thdead tag. we can style the colomn according to the order of the col element-->
+  	<colgroup>
+  		<col class="col1">
+  		<col class="col2">
+  		<col class="col3">
+  	</colgroup>
+  	
+  	<thead>
+  		<td>First heading</td>
+  		<td>Second Heading</td>
+  		<td>Third Heading</td>
+  	</thead>
+  	
+  	<tfoot>
+  		<td>First Footer</td>
+  		<td>Second Footer</td>
+  		<td>Third Footer</td>
+  	</tfoot>
+  	<tbody>
+  		<tr>
+  			<td>a</td>
+  			<td>s</td>
+  			<td>d</td>
+  		</tr>
+  		<tr>
+  			<td>f</td>
+  			<td>g</td>
+  			<td>h</td>
+  		</tr>
+  		<tr>
+  			<td>1</td>
+  			<td>2</td>
+  			<td>3</td>
+  		</tr>
+  	</tbody>
+  </table>
+</body>
+</html>
