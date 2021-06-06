@@ -173,6 +173,8 @@ adding alias
 git config --global alias.st "status"
 -------------------------------------
 
+end of the file
+
 
  
 
