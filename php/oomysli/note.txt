@@ -1,0 +1,35 @@
+MySqli support five types of fetching result
+----------------------------------------------
+
+1.fetch_assoc() get the next row as an associative array
+2.fetch_row() get the next row as an indexed array
+3.fetch_array() offers a choice of array types
+4.fetch_all() creates an array containing all rows
+5.fetch_object() get the next row as an object
+
+buffered and unbuffered queries
+********************************
+buffered query store result in php memory and we can use the internal pointer and data can be reused while 
+in unbuffered query consume less php memory but load on dbserver
+
+non prepared statement by default query() immediately return result set (Buffered)
+
+for unbuffered query we use real_query() leaves result set on dbserver and we need further functions to use it like
+retrieve result with use_result() or store_result() however store_result convert query from buffered to unbuffered
+cant use num_rows or data_seek() in unbuffered query alternatively we can use the get_result() to assign result set to a mysqli object then store result
+
+freeing MySqli resources
+-------------------------
+There are three methods to do it.. they are as follows 
+1. close()
+2. free()
+3. free_result()
+
+for prep stmt we use $stmt->close() destroy a statment and cancel pending results then close or store before executing another query
+
+$stmt->free_result() clears a strored result from memory but the statement object can be reused
+
+$db->close() closes the database connection
+
+free resources to avoid "Commands out of sync" error and unused result prevent further query execution 
+php automatically closed but mysqli its recommended to do it.. it will improve efficiencies
